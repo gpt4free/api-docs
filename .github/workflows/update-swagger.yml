@@ -27,6 +27,7 @@ jobs:
           python -m etc.tool.openapi
           mv openapi.json dist
           cd ..
+          rm -rf gpt4free
       - name: Get Latest Swagger UI Release
         id: swagger-ui
         run: |
