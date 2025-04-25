@@ -17,8 +17,7 @@ jobs:
           cache: 'pip'
       - name: Install requirements
         run: |
-          pip install fastapi uvicorn python-multipart
-          pip install requests aiohttp brotli pycryptodome nest_asyncio
+          pip install -r requirements.txt
       - name: Generate openapi.json
         run: |
           gh repo clone xtekky/gpt4free
