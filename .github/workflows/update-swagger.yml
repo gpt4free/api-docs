@@ -21,7 +21,7 @@ jobs:
       - name: Install requirements
         run: |
           pip install fastapi uvicorn python-multipart
-          pip install -r requirements-min.txt
+          pip install -r g4f/requirements-min.txt
       - name: Generate openapi.json
         run: |
           python -m g4f.etc.tool.openapi
