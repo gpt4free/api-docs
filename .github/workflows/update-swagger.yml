@@ -25,7 +25,7 @@ jobs:
           gh repo clone xtekky/gpt4free
           cd gpt4free
           python -m etc.tool.openapi
-          mv openapi.json dist
+          mv openapi.json ../dist/
           cd ..
           rm -rf gpt4free
       - name: Get Latest Swagger UI Release
