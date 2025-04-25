@@ -27,7 +27,6 @@ jobs:
       - name: Generate openapi.json
         run: |
           python -m g4f.etc.tool.openapi
-      - uses: actions/checkout@v4
       - name: Update Swagger UI
         run: |
           # Delete the dist directory and index.html
