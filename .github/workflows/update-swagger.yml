@@ -1,7 +1,7 @@
 name: Update Swagger UI
 on:
   schedule:
-    - cron:  '0 10 * * *'
+    - cron:  '0 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -16,8 +16,24 @@ jobs:
           echo "release_tag=$release_tag" >> $GITHUB_OUTPUT
           current_tag=$(<swagger-ui.version)
           echo "current_tag=$current_tag" >> $GITHUB_OUTPUT
-      - name: Update Swagger UI
         if: steps.swagger-ui.outputs.current_tag != steps.swagger-ui.outputs.release_tag
+      - uses: actions/checkout@v4
+        with:
+          repository: 'xtekky/gpt4free'
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.13"
+          cache: 'pip'
+      - name: Install requirements
+        run: |
+          pip install fastapi uvicorn python-multipart
+          pip install -r requirements-min.txt
+      - name: Generate openapi.json
+        run: |
+          python -m etc.tool.openapi
+      - uses: actions/checkout@v4
+      - name: Update Swagger UI
         env:
           RELEASE_TAG: ${{ steps.swagger-ui.outputs.release_tag }}
           SWAGGER_YAML: "swagger.yaml"
