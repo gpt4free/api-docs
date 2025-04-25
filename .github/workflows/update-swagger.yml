@@ -18,7 +18,7 @@ jobs:
       - name: Install requirements
         run: |
           pip install fastapi uvicorn python-multipart
-          pip install -r g4f/requirements-min.txt
+          pip install requests aiohttp brotli pycryptodome nest_asyncio
       - name: Generate openapi.json
         run: |
           gh repo clone xtekky/gpt4free
