@@ -11,15 +11,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: Get Latest Swagger UI Release
         id: gpt4free
-        run: |
-          release_tag=$(curl -sL https://api.github.com/repos/xtekky/gpt4free/releases/latest | jq -r ".tag_name")
-          echo "release_tag=$release_tag" >> $GITHUB_OUTPUT
-          current_tag=$(<gpt4free.version)
-          echo "current_tag=$current_tag" >> $GITHUB_OUTPUT
-        env:
-          RELEASE_TAG: ${{ steps.gpt4free.outputs.release_tag }}
-          SWAGGER_YAML: "swagger.yaml"
-        if: steps.gpt4free.outputs.current_tag != steps.gpt4free.outputs.release_tag
       - uses: actions/checkout@v4
         with:
           repository: 'xtekky/gpt4free'
@@ -42,14 +33,15 @@ jobs:
           # Delete the dist directory and index.html
           rm -fr dist index.html
           # Download the release
-          curl -sL -o $RELEASE_TAG https://api.github.com/repos/swagger-api/gpt4free/tarball/$RELEASE_TAG
+          release_tag=$(curl -sL https://api.github.com/repos/swagger-api/swagger-ui/releases/latest | jq -r ".tag_name")
+          curl -sL -o $release_tag https://api.github.com/repos/swagger-api/swagger-ui/tarball/$release_tag
           # Extract the dist directory
-          tar -xzf $RELEASE_TAG --strip-components=1 $(tar -tzf $RELEASE_TAG | head -1 | cut -f1 -d"/")/dist
-          rm $RELEASE_TAG
+          tar -xzf $release_tag --strip-components=1 $(tar -tzf $release_tag | head -1 | cut -f1 -d"/")/dist
+          rm $release_tag
           # Move index.html to the root
           mv dist/index.html .
           # Fix references in dist/swagger-initializer and index.html
-          sed -i "s|https://petstore.swagger.io/v2/swagger.json|$SWAGGER_YAML|g" dist/swagger-initializer.js
+          sed -i "s|https://petstore.swagger.io/v2/swagger.json|swagger.yml|g" dist/swagger-initializer.js
           sed -i "s|href=\"./|href=\"dist/|g" index.html
           sed -i "s|src=\"./|src=\"dist/|g" index.html
           sed -i "s|href=\"index|href=\"dist/index|g" index.html
@@ -58,7 +50,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          commit-message: Update gpt4free to ${{ steps.gpt4free.outputs.release_tag }}
+          commit-message: Update swagger-ui to ${{ steps.gpt4free.outputs.release_tag }}
           title: Update SwaggerUI to ${{ steps.gpt4free.outputs.release_tag }}
           body: |
             Updates [gpt4free] to ${{ steps.gpt4free.outputs.release_tag }}
