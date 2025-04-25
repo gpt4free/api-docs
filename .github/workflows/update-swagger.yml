@@ -8,13 +8,8 @@ jobs:
   updateSwagger:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 1
-      - uses: actions/checkout@v4
-      - name: Checkout 2
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          repository: 'xtekky/gpt4free'
-          path: 'g4f'
       - name: Set up Python 3.13
         uses: actions/setup-python@v4
         with:
@@ -26,7 +21,8 @@ jobs:
           pip install -r g4f/requirements-min.txt
       - name: Generate openapi.json
         run: |
-          cd g4f
+          gh repo clone xtekky/gpt4free
+          cd gpt4free
           python -m etc.tool.openapi
           mv openapi.json dist
           cd ..
