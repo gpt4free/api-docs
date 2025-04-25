@@ -24,7 +24,9 @@ jobs:
           pip install -r g4f/requirements-min.txt
       - name: Generate openapi.json
         run: |
-          python -m g4f.etc.tool.openapi
+          cd g4f
+          python -m etc.tool.openapi
+          cd ..
       - uses: actions/checkout@v4
       - name: Get Latest Swagger UI Release
         id: swagger-ui
