@@ -8,7 +8,9 @@ jobs:
   updateSwagger:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout g4f
+      - name: Checkout 1
+      - uses: actions/checkout@v4
+      - name: Checkout 2
         uses: actions/checkout@v4
         with:
           repository: 'xtekky/gpt4free'
@@ -26,8 +28,8 @@ jobs:
         run: |
           cd g4f
           python -m etc.tool.openapi
+          mv openapi.json dist
           cd ..
-      - uses: actions/checkout@v4
       - name: Get Latest Swagger UI Release
         id: swagger-ui
         run: |
