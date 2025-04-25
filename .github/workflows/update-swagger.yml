@@ -25,7 +25,7 @@ jobs:
           gh repo clone xtekky/gpt4free
           cd gpt4free
           python -m etc.tool.openapi
-          mv openapi.json ../dist/
+          mv openapi.json ../
           cd ..
           rm -rf gpt4free
       - name: Get Latest Swagger UI Release
@@ -50,6 +50,7 @@ jobs:
           rm $RELEASE_TAG
           # Move index.html to the root
           mv dist/index.html .
+          mv openai.json dist/
           # Fix references in dist/swagger-initializer and index.html
           sed -i "s|https://petstore.swagger.io/v2/swagger.json|$SWAGGER_YAML|g" dist/swagger-initializer.js
           sed -i "s|href=\"./|href=\"dist/|g" index.html
