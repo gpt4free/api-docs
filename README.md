@@ -15,7 +15,7 @@ The example API specification used by this repository can be seen hosted at [htt
 
     ![Headers](/screenshots/swagger-github-pages.png?raw=true)
     
-3. Browse to the Swagger documentation at `https://{github-username}.github.io/{repository-name}/`.
+3. Browse to the Swagger documentation at `https://hlohaus.github.io/g4f-swagger/`.
 
 
 ## Steps to manually configure in your own repository
